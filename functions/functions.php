@@ -110,7 +110,18 @@ function editProduct($product_id,$data){
 		$insert = mysql_query("INSERT INTO ".LOG." (product_id, product_count,log_type)
 							VALUES ('".$product_id."', '".$diffCount."','0')");
 	}
-	$update = mysql_query("UPDATE ".PRODUCT." SET 	product_name='".$data['product_name']."',
+	if($data['count'] == 0){
+		$update = mysql_query("UPDATE ".PRODUCT." SET 	product_name='".$data['product_name']."',
+													bought_price='".$data['bought_price']."', 
+													sell_price='".$data['sell_price']."', 
+													count='".$data['count']."', 
+													category_id='".$data['category_id']."', 
+													unit='".$data['unit']."', 
+													currency='".$data['currency']."',
+													in_stock = 0
+							WHERE id=".$product_id);
+	}else{
+		$update = mysql_query("UPDATE ".PRODUCT." SET 	product_name='".$data['product_name']."',
 													bought_price='".$data['bought_price']."', 
 													sell_price='".$data['sell_price']."', 
 													count='".$data['count']."', 
@@ -118,6 +129,8 @@ function editProduct($product_id,$data){
 													unit='".$data['unit']."', 
 													currency='".$data['currency']."'
 							WHERE id=".$product_id);
+	}
+	
 		
 	return $update;
 }
